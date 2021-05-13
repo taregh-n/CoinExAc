@@ -58,8 +58,10 @@ def update():
         print('If you don\'t want to save it enter "skip".')
         for crypto in new_crypos:
             amount = float(online_portfo[crypto]['available'])
-            price = input('At what price did you buy %s? ' % crypto)
-            if price != 'skip':
+            buy_value = input('How much did you buy %s (USDT)? ' % crypto)
+            if buy_value != 'skip':
+                price = float(buy_value) / amount
+                print(price)
                 curser.execute('INSERT INTO trades VALUES (\'%s\' , %f , %f)' % (crypto, float(price), amount))
                 cnx.commit()
     cnx.close()  
@@ -102,7 +104,7 @@ def showInformations():
             else:
                 profit = 0
                 print (' %s: Unknown (You don\'t enter buy price)' % (crypto))
-            print()
+        print()
     print(' Your online portfolio is: ')
     getOnlinePortfo()
     print()
